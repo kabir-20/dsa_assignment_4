@@ -1,0 +1,34 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+    string s;
+    cin >> s;
+
+    queue<char> q;
+
+    for (int i = 0; i < s.length(); i++) {
+        q.push(s[i]);
+
+        while (!q.empty()) {
+            int count = 0;
+            for (int j = 0; j <= i; j++) {
+                if (q.front() == s[j])
+                    count++;
+            }
+
+            if (count > 1)
+                q.pop();
+            else
+                break;
+        }
+
+        if (q.empty())
+            cout << "-1 ";
+        else
+            cout << q.front() << " ";
+    }
+
+    return 0;
+}
