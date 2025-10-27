@@ -1,0 +1,141 @@
+#include <iostream>
+using namespace std;
+
+
+
+class CircularQueue {
+private:
+    int items[10];
+    int front, rear;
+
+public:
+    CircularQueue() {
+        front = -1;
+        rear = -1;
+    }
+
+    int isFull() {
+        if ((front == 0 && rear == SIZE - 1) || (rear + 1 == front))
+            return 1;
+        else
+            return 0;
+    }
+
+    int isEmpty() {
+        if (front == -1)
+            return 1;
+        else
+            return 0;
+    }
+
+    void enqueue(int element) {
+        if (isFull() == 1) {
+            cout << "Queue is full! Cannot insert " << element << endl;
+        } else {
+            if (front == -1)
+                front = 0;
+            rear = (rear + 1) % SIZE;
+            items[rear] = element;
+            cout << element << " enqueued to queue.\n";
+        }
+    }
+
+    void dequeue() {
+        if (isEmpty() == 1) {
+            cout << "Queue is empty! Cannot dequeue.\n";
+        } else {
+            cout << items[front] << " dequeued from queue.\n";
+            if (front == rear) {
+                front = -1;
+                rear = -1;
+            } else {
+                front = (front + 1) % SIZE;
+            }
+        }
+    }
+
+    void peek() {
+        if (isEmpty() == 1)
+            cout << "Queue is empty!\n";
+        else
+            cout << "Front element is: " << items[front] << endl;
+    }
+
+    void display() {
+        if (isEmpty() == 1) {
+            cout << "Queue is empty!\n";
+        } else {
+            cout << "Queue elements are: ";
+            int i = front;
+            while (1) {
+                cout << items[i] << " ";
+                if (i == rear)
+                    break;
+                i = (i + 1) % SIZE;
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    CircularQueue q;
+    int choice, value;
+
+    do {
+        cout << "\n---- Circular Queue Operations Menu ----\n";
+        cout << "1. Enqueue\n";
+        cout << "2. Dequeue\n";
+        cout << "3. Check if Empty\n";
+        cout << "4. Check if Full\n";
+        cout << "5. Peek (Front Element)\n";
+        cout << "6. Display\n";
+        cout << "7. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to enqueue: ";
+                cin >> value;
+                q.enqueue(value);
+                break;
+
+            case 2:
+                q.dequeue();
+                break;
+
+            case 3:
+                if (q.isEmpty() == 1)
+                    cout << "Queue is empty.\n";
+                else
+                    cout << "Queue is not empty.\n";
+                break;
+
+            case 4:
+                if (q.isFull() == 1)
+                    cout << "Queue is full.\n";
+                else
+                    cout << "Queue is not full.\n";
+                break;
+
+            case 5:
+                q.peek();
+                break;
+
+            case 6:
+                q.display();
+                break;
+
+            case 7:
+                cout << "Exiting program...\n";
+                break;
+
+            default:
+                cout << "Invalid choice! Try again.\n";
+        }
+
+    } while (choice != 7);
+
+    return 0;
+}
