@@ -1,0 +1,57 @@
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+int Index(queue<int> q, int sorted) {
+    int n = q.size();
+    int minVal = MAX, minIndex = -1;
+    for (int i = 0; i < n; i++) {
+        int cur = q.front();
+        q.pop();
+        if (cur < minVal && i <= sorted) {
+            minVal = cur;
+            minIndex = i;
+        }
+        q.push(cur);
+    }
+    return minIndex;
+}
+
+void MinRear(queue<int>& q, int minIndex) {
+    int n = q.size();
+    int minVal;
+    for (int i = 0; i < n; i++) {
+        int cur = q.front();
+        q.pop();
+        if (i == minIndex)
+            minVal = cur;
+        else
+            q.push(cur);
+    }
+    q.push(minVal);
+}
+
+void sortQueue(queue<int>& q) {
+    int n = q.size();
+    for (int i = 1; i <= n; i++) {
+        int minIndex = Index(q, n - i);
+        MinRear(q, minIndex);
+    }
+}
+
+int main() {
+    queue<int> q;
+    q.push(30);
+    q.push(11);
+    q.push(15);
+    q.push(4);
+
+    sortQueue(q);
+
+    while (!q.empty()) {
+        cout << q.front() << " ";
+        q.pop();
+    }
+    return 0;
+}
